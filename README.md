@@ -37,9 +37,10 @@
 2. เปิด VS Code → เมนู **File → Open Folder...** → เลือกโฟลเดอร์ `clinic_queue` (เปิดทั้งโฟลเดอร์ ไม่ใช่เปิดไฟล์เดียว)
 3. เลือก Python interpreter: กด `Ctrl+Shift+P` → พิมพ์ **Python: Select Interpreter** → เลือก Python 3 ที่ติดตั้งไว้
 4. เปิด Terminal: เมนู **Terminal → New Terminal** (หรือกด ``Ctrl+` ``)
-5. ติดตั้ง tkcalendar (ทำครั้งเดียวต่อเครื่อง ต้องต่ออินเทอร์เน็ต)
+5. ติดตั้ง tkcalendar และ Flask(ทำครั้งเดียวต่อเครื่อง ต้องต่ออินเทอร์เน็ต)
    ```
    python -m pip install tkcalendar
+   python -m pip install flask
    ```
    ควรเห็น "Successfully installed babel-... tkcalendar-..." (babel ถูกติดตั้งมาด้วยอัตโนมัติ)
    หรือติดตั้งจากไฟล์ `requirements.txt` ก็ได้: `python -m pip install -r requirements.txt`
