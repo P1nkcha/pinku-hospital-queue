@@ -1,0 +1,9 @@
+# ฐานข้อมูล สร้างใหม่ได้จาก create_db.py
+clinic.db
+
+# ไฟล์ที่ Python สร้างเองตอนรัน
+__pycache__/
+*.pyc
+
+# การตั้งค่าส่วนตัวของ VS Code
+.vscode/
