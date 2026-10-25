@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ระบบจองคิวคลินิก</title>
+</head>
+<body>
+    <h1>ระบบจองคิวคลินิก</h1>
+    <h2>รายการคิวผู้ป่วย</h2>
+
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>เลขคิว</th>
+            <th>วันที่</th>
+            <th>เวลา</th>
+            <th>ผู้ป่วย</th>
+            <th>แพทย์</th>
+            <th>แผนก</th>
+            <th>สถานะ</th>
+        </tr>
+
+        {% for q in queues %}
+        <tr>
+            <td>{{ q.appt_id }}</td>
+            <td>{{ q.work_date }}</td>
+            <td>{{ q.slot_time }}</td>
+            <td>{{ q.patient_name }}</td>
+            <td>{{ q.doctor_name }}</td>
+            <td>{{ q.dept_name }}</td>
+            <td>{{ q.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+
+
