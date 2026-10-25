@@ -38,13 +38,13 @@ def create_tab(parent):
     birth_entry = DateEntry(form, textvariable=ui['birth_var'], width=26, font=theme.FONT,
                             date_pattern='yyyy-mm-dd', locale='th_TH', maxdate=date.today(),
                             firstweekday='sunday', showweeknumbers=False,
-                            background=theme.PRIMARY, foreground=theme.WHITE, bordercolor=theme.SECONDARY,
+                            background=theme.PRIMARY, foreground=theme.TEXT, bordercolor=theme.SECONDARY,
                             headersbackground=theme.SECONDARY, headersforeground=theme.TEXT,
                             normalbackground=theme.WHITE, normalforeground=theme.TEXT,
                             weekendbackground=theme.WHITE, weekendforeground=theme.TEXT,
                             othermonthbackground=theme.WHITE, othermonthwebackground=theme.WHITE,
                             othermonthforeground=theme.HINT, othermonthweforeground=theme.HINT,
-                            selectbackground=theme.PRIMARY, selectforeground=theme.WHITE)
+                            selectbackground=theme.PRIMARY, selectforeground=theme.TEXT)
     birth_entry.configure(validate='none')
     birth_entry.delete(0, 'end')
     birth_entry.grid(row=3, column=1, pady=4)

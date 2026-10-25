@@ -1,4 +1,4 @@
-# dialogs.py : หน้าต่างแจ้งเตือนที่เข้ากับธีม Pinku Hospital ใช้แทน messagebox ของ tkinter
+# dialogs.py : หน้าต่างแจ้งเตือนที่เข้ากับธีม Pinku Clinic ใช้แทน messagebox ของ tkinter
 # มี 4 แบบ: show_info (ข้อมูล), show_warning (เตือน), show_error (ผิดพลาด), ask_yes_no (ถามยืนยัน)
 # ทุกแบบขึ้นตรงกลางหน้าต่างหลัก กด Enter = ตกลง กด Esc = ยกเลิก และต้องปิดก่อนถึงจะกดหน้าต่างหลักได้
 
@@ -76,7 +76,7 @@ def show_message(kind, title, message, ask, danger):  # สร้างและ
     tk.Frame(window, background=color, height=6).pack(fill='x')  # แถบสีด้านบน บอกชนิดของกล่อง
     body = tk.Frame(window, background=theme.WHITE, padx=22, pady=18)  # พื้นที่ข้อความ พื้นขาว
     body.pack(fill='both', expand=True)  # ขยายเต็มหน้าต่าง
-    tk.Label(body, text=symbol, font=('Tahoma', 18, 'bold'), foreground=theme.WHITE, background=color, width=2).grid(row=0, column=0, rowspan=2, sticky='n', padx=(0, 16))  # วงสัญลักษณ์ด้านซ้าย
+    tk.Label(body, text=symbol, font=('Tahoma', 18, 'bold'), foreground=theme.TEXT, background=color, width=2).grid(row=0, column=0, rowspan=2, sticky='n', padx=(0, 16))  # วงสัญลักษณ์ด้านซ้าย พื้นชมพูหรือสีเน้น ตัวสีเข้ม
     tk.Label(body, text=title, font=('Tahoma', 12, 'bold'), foreground=theme.TEXT, background=theme.WHITE, anchor='w').grid(row=0, column=1, sticky='w')  # หัวข้อตัวหนา
     tk.Label(body, text=message, font=theme.FONT, foreground=theme.TEXT, background=theme.WHITE, justify='left', anchor='w', wraplength=440).grid(row=1, column=1, sticky='w', pady=(8, 0))  # ข้อความ ยาวเกิน 440 พิกเซลจะขึ้นบรรทัดใหม่เอง
 

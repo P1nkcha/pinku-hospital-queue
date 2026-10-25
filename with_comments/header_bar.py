@@ -1,4 +1,4 @@
-# header_bar.py : แถบหัวโปรแกรม แสดงชื่อ Pinku Hospital คู่กับสรุปคิวของวันนี้ 4 ตัวเลข
+# header_bar.py : แถบหัวโปรแกรม แสดงชื่อ Pinku Clinic คู่กับสรุปคิวของวันนี้ 4 ตัวเลข
 # แท็บอื่นเรียก header_bar.refresh() ทุกครั้งที่จอง ยกเลิก หรือบันทึกว่าตรวจแล้ว และ main.py เรียกตอนสลับแท็บ
 
 import tkinter as tk  # ไลบรารีสร้างหน้าจอ (ใช้ widget แบบ tk เพราะตั้งสีพื้นได้ง่าย)
@@ -20,15 +20,15 @@ def create_bar(parent):  # สร้างแถบหัวโปรแกร�
     bar = tk.Frame(parent, background=theme.PRIMARY, padx=16, pady=8)  # แถบพื้นสีหลัก กว้างเต็มหน้าต่าง
     name_box = tk.Frame(bar, background=theme.PRIMARY)  # ส่วนชื่อโปรแกรมทางซ้าย
     name_box.pack(side='left')  # ชิดซ้าย
-    tk.Label(name_box, text=theme.APP_NAME, font=('Tahoma', 18, 'bold'), foreground=theme.WHITE, background=theme.PRIMARY).pack(anchor='w')  # ชื่อ Pinku Hospital ตัวขาวหนา
-    tk.Label(name_box, text='ระบบจองคิวคลินิก', font=('Tahoma', 10), foreground=theme.WHITE, background=theme.PRIMARY).pack(anchor='w')  # คำอธิบายใต้ชื่อ
+    tk.Label(name_box, text=theme.APP_NAME, font=('Tahoma', 18, 'bold'), foreground=theme.TEXT, background=theme.PRIMARY).pack(anchor='w')  # ชื่อ Pinku Clinic ตัวหนาสีเข้มบนพื้นชมพู
+    tk.Label(name_box, text='ระบบจองคิวคลินิก', font=('Tahoma', 10), foreground=theme.TEXT, background=theme.PRIMARY).pack(anchor='w')  # คำอธิบายใต้ชื่อ ตัวสีเข้ม
 
     add_number(bar, 'cancelled', 'ยกเลิก', theme.ACCENT)  # คิวที่ยกเลิก (ขวาสุด) ใช้สีเน้น
     add_number(bar, 'waiting', 'รอตรวจ', theme.PRIMARY_DARK)  # คิวที่สถานะจองแล้ว
     add_number(bar, 'done', 'ตรวจแล้ว', theme.DONE)  # คิวที่ตรวจแล้ว สีเขียว
     add_number(bar, 'total', 'คิวทั้งหมด', theme.TEXT)  # คิวทั้งหมดของวันนี้
     ui['date_text'] = tk.StringVar()  # ข้อความ "สรุปคิววันนี้ (วันที่)"
-    tk.Label(bar, textvariable=ui['date_text'], font=theme.FONT_BOLD, foreground=theme.WHITE, background=theme.PRIMARY, justify='right').pack(side='right', padx=(0, 6))  # ป้ายบอกวันที่ อยู่ซ้ายของกล่องตัวเลข
+    tk.Label(bar, textvariable=ui['date_text'], font=theme.FONT_BOLD, foreground=theme.TEXT, background=theme.PRIMARY, justify='right').pack(side='right', padx=(0, 6))  # ป้ายบอกวันที่ อยู่ซ้ายของกล่องตัวเลข ตัวสีเข้ม
     refresh()  # โหลดตัวเลขครั้งแรก
     return bar  # ส่ง frame กลับไปให้ main.py วางไว้บนสุด
 

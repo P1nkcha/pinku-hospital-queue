@@ -1,4 +1,4 @@
-# main.py : หน้าต่างหลักของระบบจองคิวคลินิก Pinku Hospital
+# main.py : หน้าต่างหลักของระบบจองคิวคลินิก Pinku Clinic
 # วิธีรัน: python main.py  (ต้องติดตั้ง tkcalendar และรัน python create_db.py ก่อนอย่างน้อย 1 ครั้ง)
 
 import tkinter as tk  # ไลบรารีสร้างหน้าจอที่มากับ Python

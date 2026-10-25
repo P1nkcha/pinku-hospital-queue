@@ -36,27 +36,30 @@ def setup_style(root):
     style.map('TCombobox', fieldbackground=[('readonly', WHITE)], background=[('active', SECONDARY), ('readonly', WHITE)],
               selectbackground=[('readonly', WHITE)], selectforeground=[('readonly', TEXT)], bordercolor=[('focus', PRIMARY_DARK)])
 
-    style.configure('TButton', background=PRIMARY, foreground=WHITE, font=FONT_BOLD, bordercolor=PRIMARY_DARK,
+    style.configure('TButton', background=PRIMARY, foreground=TEXT, font=FONT_BOLD, bordercolor=PRIMARY_DARK,
                     lightcolor=PRIMARY, darkcolor=PRIMARY, focuscolor=WHITE, padding=(10, 3))
     style.map('TButton', background=[('pressed', PRIMARY_DARK), ('active', PRIMARY_DARK)],
+              foreground=[('pressed', WHITE), ('active', WHITE)],
               lightcolor=[('pressed', PRIMARY_DARK), ('active', PRIMARY_DARK)], darkcolor=[('pressed', PRIMARY_DARK), ('active', PRIMARY_DARK)])
     style.configure('Light.TButton', background=WHITE, foreground=PRIMARY_DARK, bordercolor=PRIMARY, lightcolor=WHITE, darkcolor=WHITE)
     style.map('Light.TButton', background=[('pressed', SECONDARY), ('active', SECONDARY)],
+              foreground=[('pressed', PRIMARY_DARK), ('active', PRIMARY_DARK)],
               lightcolor=[('pressed', SECONDARY), ('active', SECONDARY)], darkcolor=[('pressed', SECONDARY), ('active', SECONDARY)])
-    style.configure('Danger.TButton', background=ACCENT, foreground=WHITE, bordercolor=ACCENT_DARK, lightcolor=ACCENT, darkcolor=ACCENT)
+    style.configure('Danger.TButton', background=ACCENT, foreground=TEXT, bordercolor=ACCENT_DARK, lightcolor=ACCENT, darkcolor=ACCENT)
     style.map('Danger.TButton', background=[('pressed', ACCENT_DARK), ('active', ACCENT_DARK)],
+              foreground=[('pressed', WHITE), ('active', WHITE)],
               lightcolor=[('pressed', ACCENT_DARK), ('active', ACCENT_DARK)], darkcolor=[('pressed', ACCENT_DARK), ('active', ACCENT_DARK)])
 
     style.configure('TNotebook', background=SECONDARY, bordercolor=PRIMARY, tabmargins=(0, 6, 0, 0))
-    style.configure('TNotebook.Tab', background=PRIMARY, foreground=WHITE, font=FONT_BOLD, padding=(16, 6), bordercolor=PRIMARY_DARK, lightcolor=PRIMARY)
+    style.configure('TNotebook.Tab', background=PRIMARY, foreground=TEXT, font=FONT_BOLD, padding=(16, 6), bordercolor=PRIMARY_DARK, lightcolor=PRIMARY)
     style.map('TNotebook.Tab', background=[('selected', SECONDARY), ('active', PRIMARY_DARK)],
-              foreground=[('selected', PRIMARY_DARK)], lightcolor=[('selected', SECONDARY)],
+              foreground=[('selected', PRIMARY_DARK), ('active', WHITE)], lightcolor=[('selected', SECONDARY)],
               padding=[('selected', (16, 6))])
 
     style.configure('Treeview', background=WHITE, fieldbackground=WHITE, foreground=TEXT, rowheight=30, bordercolor=PRIMARY)
     style.map('Treeview', background=[('selected', SECONDARY)], foreground=[('selected', TEXT)])
-    style.configure('Treeview.Heading', background=PRIMARY, foreground=WHITE, font=FONT_BOLD, bordercolor=PRIMARY_DARK, lightcolor=PRIMARY, darkcolor=PRIMARY, relief='flat')
-    style.map('Treeview.Heading', background=[('active', PRIMARY_DARK)])
+    style.configure('Treeview.Heading', background=PRIMARY, foreground=TEXT, font=FONT_BOLD, bordercolor=PRIMARY_DARK, lightcolor=PRIMARY, darkcolor=PRIMARY, relief='flat')
+    style.map('Treeview.Heading', background=[('active', PRIMARY_DARK)], foreground=[('active', WHITE)])
 
     style.configure('TScrollbar', background=SECONDARY, troughcolor=WHITE, bordercolor=PRIMARY, arrowcolor=PRIMARY_DARK, lightcolor=SECONDARY, darkcolor=SECONDARY)
-    style.map('TScrollbar', background=[('active', PRIMARY)], arrowcolor=[('active', WHITE)])
+    style.map('TScrollbar', background=[('active', PRIMARY)], arrowcolor=[('active', TEXT)])

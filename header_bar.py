@@ -17,15 +17,15 @@ def create_bar(parent):
     bar = tk.Frame(parent, background=theme.PRIMARY, padx=16, pady=8)
     name_box = tk.Frame(bar, background=theme.PRIMARY)
     name_box.pack(side='left')
-    tk.Label(name_box, text=theme.APP_NAME, font=('Tahoma', 18, 'bold'), foreground=theme.WHITE, background=theme.PRIMARY).pack(anchor='w')
-    tk.Label(name_box, text='ระบบจองคิวคลินิก', font=('Tahoma', 10), foreground=theme.WHITE, background=theme.PRIMARY).pack(anchor='w')
+    tk.Label(name_box, text=theme.APP_NAME, font=('Tahoma', 18, 'bold'), foreground=theme.TEXT, background=theme.PRIMARY).pack(anchor='w')
+    tk.Label(name_box, text='ระบบจองคิวคลินิก', font=('Tahoma', 10), foreground=theme.TEXT, background=theme.PRIMARY).pack(anchor='w')
 
     add_number(bar, 'cancelled', 'ยกเลิก', theme.ACCENT)
     add_number(bar, 'waiting', 'รอตรวจ', theme.PRIMARY_DARK)
     add_number(bar, 'done', 'ตรวจแล้ว', theme.DONE)
     add_number(bar, 'total', 'คิวทั้งหมด', theme.TEXT)
     ui['date_text'] = tk.StringVar()
-    tk.Label(bar, textvariable=ui['date_text'], font=theme.FONT_BOLD, foreground=theme.WHITE, background=theme.PRIMARY, justify='right').pack(side='right', padx=(0, 6))
+    tk.Label(bar, textvariable=ui['date_text'], font=theme.FONT_BOLD, foreground=theme.TEXT, background=theme.PRIMARY, justify='right').pack(side='right', padx=(0, 6))
     refresh()
     return bar
 

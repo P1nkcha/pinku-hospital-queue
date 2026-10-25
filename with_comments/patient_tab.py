@@ -32,7 +32,7 @@ def create_tab(parent):  # สร้างหน้าตาแท็บ แล�
     ui['selected_id'] = None  # รหัสผู้ป่วยที่เลือกมาแก้ไข (None = ยังไม่ได้เลือก)
     ui['birth_from_user'] = False  # ช่องวันเกิดมีวันที่ที่ผู้ใช้เลือกหรือพิมพ์เอง (หรือโหลดจากฐานข้อมูล) แล้วหรือยัง
 
-    ttk.Label(form, textvariable=ui['mode_var'], foreground=theme.PRIMARY_DARK).grid(row=0, column=0, columnspan=2, sticky='w', pady=(0, 6))  # แสดงโหมดปัจจุบันเป็นสีน้ำเงิน
+    ttk.Label(form, textvariable=ui['mode_var'], foreground=theme.PRIMARY_DARK).grid(row=0, column=0, columnspan=2, sticky='w', pady=(0, 6))  # แสดงโหมดปัจจุบันเป็นสีหลักแบบเข้ม
     ttk.Label(form, text='ชื่อ-นามสกุล').grid(row=1, column=0, sticky='w', pady=4)  # ป้ายช่องชื่อ
     ttk.Entry(form, textvariable=ui['name_var'], width=28).grid(row=1, column=1, pady=4)  # ช่องกรอกชื่อ
     ttk.Label(form, text='เบอร์โทร').grid(row=2, column=0, sticky='w', pady=4)  # ป้ายช่องเบอร์โทร
@@ -41,13 +41,13 @@ def create_tab(parent):  # สร้างหน้าตาแท็บ แล�
     birth_entry = DateEntry(form, textvariable=ui['birth_var'], width=26, font=theme.FONT,  # ช่องวันเกิดแบบมีปฏิทินเลื่อนลง
                             date_pattern='yyyy-mm-dd', locale='th_TH', maxdate=date.today(),  # รูปแบบ YYYY-MM-DD ปี ค.ศ. ชื่อเดือนภาษาไทย ห้ามเลือกวันในอนาคต
                             firstweekday='sunday', showweeknumbers=False,  # สัปดาห์เริ่มวันอาทิตย์ ไม่แสดงเลขสัปดาห์
-                            background=theme.PRIMARY, foreground=theme.WHITE, bordercolor=theme.SECONDARY,  # หัวปฏิทิน (เดือน ปี) พื้นสีหลัก ตัวขาว
+                            background=theme.PRIMARY, foreground=theme.TEXT, bordercolor=theme.SECONDARY,  # หัวปฏิทิน (เดือน ปี และลูกศรเลื่อนเดือน) พื้นชมพู ตัวสีเข้ม
                             headersbackground=theme.SECONDARY, headersforeground=theme.TEXT,  # แถวชื่อวัน พื้นสีรอง
                             normalbackground=theme.WHITE, normalforeground=theme.TEXT,  # วันธรรมดา พื้นขาว
                             weekendbackground=theme.WHITE, weekendforeground=theme.TEXT,  # วันเสาร์อาทิตย์ พื้นขาวเหมือนวันธรรมดา
                             othermonthbackground=theme.WHITE, othermonthwebackground=theme.WHITE,  # วันของเดือนก่อนหรือเดือนถัดไป พื้นขาว
                             othermonthforeground=theme.HINT, othermonthweforeground=theme.HINT,  # วันของเดือนอื่น ตัวสีเทา
-                            selectbackground=theme.PRIMARY, selectforeground=theme.WHITE)  # วันที่เลือก พื้นสีหลัก ตัวขาว
+                            selectbackground=theme.PRIMARY, selectforeground=theme.TEXT)  # วันที่เลือก พื้นชมพู ตัวสีเข้ม
     birth_entry.configure(validate='none')  # ปิดการแก้ค่าอัตโนมัติของ DateEntry: พิมพ์ผิดแล้วจะไม่ถูกเปลี่ยนเป็นวันนี้เงียบๆ ให้ check_form เตือนแทน
     birth_entry.delete(0, 'end')  # เริ่มต้นช่องว่าง (DateEntry ใส่วันนี้ให้เองตอนสร้าง)
     birth_entry.grid(row=3, column=1, pady=4)  # วางช่องวันเกิด

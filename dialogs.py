@@ -72,7 +72,7 @@ def show_message(kind, title, message, ask, danger):
     tk.Frame(window, background=color, height=6).pack(fill='x')
     body = tk.Frame(window, background=theme.WHITE, padx=22, pady=18)
     body.pack(fill='both', expand=True)
-    tk.Label(body, text=symbol, font=('Tahoma', 18, 'bold'), foreground=theme.WHITE, background=color, width=2).grid(row=0, column=0, rowspan=2, sticky='n', padx=(0, 16))
+    tk.Label(body, text=symbol, font=('Tahoma', 18, 'bold'), foreground=theme.TEXT, background=color, width=2).grid(row=0, column=0, rowspan=2, sticky='n', padx=(0, 16))
     tk.Label(body, text=title, font=('Tahoma', 12, 'bold'), foreground=theme.TEXT, background=theme.WHITE, anchor='w').grid(row=0, column=1, sticky='w')
     tk.Label(body, text=message, font=theme.FONT, foreground=theme.TEXT, background=theme.WHITE, justify='left', anchor='w', wraplength=440).grid(row=1, column=1, sticky='w', pady=(8, 0))
 
