@@ -43,14 +43,15 @@ def create_tab(parent):
     columns = ('appt_id', 'work_date', 'slot_time', 'patient', 'phone', 'doctor', 'dept', 'symptom', 'status')
     headings = ('คิว', 'วันที่', 'เวลา', 'ผู้ป่วย', 'เบอร์โทร', 'แพทย์', 'แผนก', 'อาการ', 'สถานะ')
     widths = (45, 95, 55, 150, 100, 160, 110, 125, 75)
-    tree = ttk.Treeview(table, columns=columns, show='headings', selectmode='browse')
+    tree = ttk.Treeview(table, columns=columns, show='headings', selectmode='browse', style='Queue.Treeview')
     for i in range(len(columns)):
         tree.heading(columns[i], text=headings[i])
         tree.column(columns[i], width=widths[i], minwidth=40, stretch=True)
     for name in ('appt_id', 'work_date', 'slot_time', 'phone', 'status'):
         tree.column(name, anchor='center')
-    tree.tag_configure('cancelled', foreground=theme.CANCELLED)
-    tree.tag_configure('done', foreground=theme.DONE)
+    tree.tag_configure('booked', background=theme.BOOKED_BG, foreground=theme.TEXT)
+    tree.tag_configure('done', background=theme.DONE_BG, foreground=theme.TEXT)
+    tree.tag_configure('cancelled', background=theme.CANCELLED_BG, foreground=theme.TEXT)
     scroll_y = ttk.Scrollbar(table, orient='vertical', command=tree.yview)
     scroll_x = ttk.Scrollbar(table, orient='horizontal', command=tree.xview)
     tree.configure(yscrollcommand=scroll_y.set, xscrollcommand=scroll_x.set)
@@ -66,7 +67,7 @@ def create_tab(parent):
     ttk.Label(actions, text='จัดการคิวที่เลือก:').pack(side='left')
     ttk.Button(actions, text='ยกเลิกคิว', style='Danger.TButton', command=cancel_appointment).pack(side='left', padx=8, ipady=3)
     ttk.Button(actions, text='บันทึกว่าตรวจแล้ว', command=mark_done).pack(side='left', ipady=3)
-    ttk.Label(actions, text='สีเทา = ยกเลิก   สีเขียว = ตรวจแล้ว', foreground=theme.HINT).pack(side='right')
+    ttk.Label(actions, text='สีส้ม = จองแล้ว · สีเขียว = ตรวจแล้ว · สีเทา = ยกเลิก', foreground=theme.HINT).pack(side='right')
 
     load_results()
     return frame
@@ -108,7 +109,7 @@ def load_results():
     for item in tree.get_children():
         tree.delete(item)
     for row in rows:
-        tag = ''
+        tag = 'booked'
         if row[8] == 'ยกเลิก':
             tag = 'cancelled'
         elif row[8] == 'ตรวจแล้ว':

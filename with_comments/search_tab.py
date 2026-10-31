@@ -46,14 +46,15 @@ def create_tab(parent):  # สร้างหน้าตาแท็บ แล�
     columns = ('appt_id', 'work_date', 'slot_time', 'patient', 'phone', 'doctor', 'dept', 'symptom', 'status')  # ชื่อคอลัมน์ภายในโปรแกรม
     headings = ('คิว', 'วันที่', 'เวลา', 'ผู้ป่วย', 'เบอร์โทร', 'แพทย์', 'แผนก', 'อาการ', 'สถานะ')  # หัวคอลัมน์ภาษาไทย
     widths = (45, 95, 55, 150, 100, 160, 110, 125, 75)  # ความกว้างเริ่มต้น รวม 915 พิกเซล พอดีหน้าต่าง 1100 โดยไม่ต้องเลื่อนแนวนอน
-    tree = ttk.Treeview(table, columns=columns, show='headings', selectmode='browse')  # ตารางผลการค้นหา เลือกได้ทีละแถว
+    tree = ttk.Treeview(table, columns=columns, show='headings', selectmode='browse', style='Queue.Treeview')  # ตารางผลการค้นหา เลือกได้ทีละแถว ใช้สไตล์ตารางคิว (แถวที่เลือกเป็นสีชมพู)
     for i in range(len(columns)):  # ตั้งค่าทีละคอลัมน์
         tree.heading(columns[i], text=headings[i])  # ใส่หัวคอลัมน์
         tree.column(columns[i], width=widths[i], minwidth=40, stretch=True)  # ตั้งความกว้าง และให้ยืดตามขนาดหน้าต่าง (หน้าต่างกว้างขึ้น คอลัมน์กว้างตาม)
     for name in ('appt_id', 'work_date', 'slot_time', 'phone', 'status'):  # คอลัมน์ที่ควรจัดกึ่งกลาง
         tree.column(name, anchor='center')  # จัดกึ่งกลาง
-    tree.tag_configure('cancelled', foreground=theme.CANCELLED)  # แถวที่ยกเลิกแล้ว = ตัวอักษรสีเทา
-    tree.tag_configure('done', foreground=theme.DONE)  # แถวที่ตรวจแล้ว = ตัวอักษรสีเขียว
+    tree.tag_configure('booked', background=theme.BOOKED_BG, foreground=theme.TEXT)  # แถวที่จองแล้ว = พื้นส้มอ่อน ตัวหนังสือสีเข้มปกติ
+    tree.tag_configure('done', background=theme.DONE_BG, foreground=theme.TEXT)  # แถวที่ตรวจแล้ว = พื้นเขียวอ่อน ตัวหนังสือสีเข้มปกติ
+    tree.tag_configure('cancelled', background=theme.CANCELLED_BG, foreground=theme.TEXT)  # แถวที่ยกเลิก = พื้นเทาอ่อน ตัวหนังสือสีเข้มปกติ (แถวที่คลิกเลือกเป็นพื้นชมพู ตัวหนังสือยังอ่านชัด)
     scroll_y = ttk.Scrollbar(table, orient='vertical', command=tree.yview)  # แถบเลื่อนแนวตั้ง
     scroll_x = ttk.Scrollbar(table, orient='horizontal', command=tree.xview)  # แถบเลื่อนแนวนอน (จอเล็ก)
     tree.configure(yscrollcommand=scroll_y.set, xscrollcommand=scroll_x.set)  # ผูกตารางกับแถบเลื่อน
@@ -69,7 +70,7 @@ def create_tab(parent):  # สร้างหน้าตาแท็บ แล�
     ttk.Label(actions, text='จัดการคิวที่เลือก:').pack(side='left')  # ป้ายนำ
     ttk.Button(actions, text='ยกเลิกคิว', style='Danger.TButton', command=cancel_appointment).pack(side='left', padx=8, ipady=3)  # ปุ่มยกเลิกคิว ใช้สีเน้น
     ttk.Button(actions, text='บันทึกว่าตรวจแล้ว', command=mark_done).pack(side='left', ipady=3)  # ปุ่มเปลี่ยนสถานะเป็นตรวจแล้ว
-    ttk.Label(actions, text='สีเทา = ยกเลิก   สีเขียว = ตรวจแล้ว', foreground=theme.HINT).pack(side='right')  # คำอธิบายสีในตาราง
+    ttk.Label(actions, text='สีส้ม = จองแล้ว · สีเขียว = ตรวจแล้ว · สีเทา = ยกเลิก', foreground=theme.HINT).pack(side='right')  # คำอธิบายสีของแถวในตาราง
 
     load_results()  # เปิดแท็บครั้งแรก แสดงคิวของวันนี้
     return frame  # ส่ง frame กลับไปให้ main.py ใส่ลงแท็บ
@@ -111,7 +112,7 @@ def load_results():  # ค้นหาคิวจากฐานข้อมู
     for item in tree.get_children():  # ทุกแถวเดิมในตาราง
         tree.delete(item)  # ลบออกก่อนใส่ผลใหม่
     for row in rows:  # ทุกคิวที่ค้นเจอ
-        tag = ''  # สีปกติสำหรับคิวที่จองแล้ว
+        tag = 'booked'  # คิวที่จองแล้ว ใช้สีส้ม
         if row[8] == 'ยกเลิก':  # คิวที่ยกเลิก
             tag = 'cancelled'  # ใช้สีเทา
         elif row[8] == 'ตรวจแล้ว':  # คิวที่ตรวจแล้ว

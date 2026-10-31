@@ -123,23 +123,23 @@ wait()
 
 
 # =====================================================================
-# ตัวอย่างที่ 3 : SELECT LEFT JOIN - ช่องเวลาที่ยังว่างของแผนกอายุรกรรม ตั้งแต่วันนี้เป็นต้นไป
+# ตัวอย่างที่ 3 : SELECT LEFT JOIN - ช่องเวลาที่ยังว่างของ พญ.กมลวรรณ (doctor_id 2) วันพรุ่งนี้
 # หน้า "จองคิว" ใช้คำสั่งแบบเดียวกันนี้ และตัดช่องของวันนี้ที่เลยเวลาปัจจุบันออกอีกชั้น
 # ช่องว่าง = ไม่มีคิวที่ยังไม่ยกเลิก (a.appt_id IS NULL)
-# ผลที่ควรได้: 7 แถว  รวมช่องวันนี้ 10:00 และพรุ่งนี้ 09:30 ซึ่งเคยมีคิวแต่ถูกยกเลิกไปแล้ว
+# กรองแพทย์ 1 คนและวันเดียว เพราะตารางออกตรวจมีล่วงหน้า 30 วัน ถ้าไม่กรองผลจะยาวหลายร้อยแถว
+# ผลที่ควรได้: 11 แถว (09:30 ถึง 15:30)  ไม่มี 09:00 เพราะคิว 14 จองไว้  และมี 09:30 เพราะคิว 17 ถูกยกเลิกไปแล้ว
 # =====================================================================
-title("ตัวอย่างที่ 3/10 : ช่องเวลาที่ยังว่าง แผนกอายุรกรรม")
+title("ตัวอย่างที่ 3/10 : ช่องเวลาที่ยังว่าง พญ.กมลวรรณ วันพรุ่งนี้")
 sql = '''SELECT s.schedule_id, s.work_date, s.slot_time, d.doctor_name
     FROM schedules s
-    JOIN doctors d      ON s.doctor_id = d.doctor_id
-    JOIN departments dp ON d.dept_id   = dp.dept_id
+    JOIN doctors d ON s.doctor_id = d.doctor_id
     LEFT JOIN appointments a ON a.schedule_id = s.schedule_id
                             AND a.status <> 'ยกเลิก'
-    WHERE dp.dept_name = ?
-      AND s.work_date >= date('now', 'localtime')
+    WHERE s.doctor_id = ?
+      AND s.work_date = date('now', 'localtime', '+1 day')
       AND a.appt_id IS NULL
-    ORDER BY s.work_date, s.slot_time'''
-run_select(cursor, sql, ('อายุรกรรม',))
+    ORDER BY s.slot_time'''
+run_select(cursor, sql, (2,))
 wait()
 
 
@@ -326,7 +326,7 @@ title("ตัวอย่างที่ 9/10 : DELETE ลบช่องเว�
 doctor_id = 10
 
 # 9.1 ก่อนลบ: SELECT ด้วยเงื่อนไขเดียวกับ DELETE
-# ผลที่ควรได้: 2 แถว (schedule_id 39 เวลา 10:00 และ 40 เวลา 10:30)
+# ผลที่ควรได้: 12 แถว (ทุกช่องของวันมะรืน 09:00 ถึง 15:30 เพราะไม่มีใครจอง)
 print("[ก่อน DELETE]")
 sql = '''SELECT schedule_id, doctor_id, work_date, slot_time
     FROM schedules
@@ -336,7 +336,7 @@ sql = '''SELECT schedule_id, doctor_id, work_date, slot_time
 run_select(cursor, sql, (doctor_id,))
 
 # 9.2 DELETE
-# ผลที่ควรได้: ลบไป 2 แถว
+# ผลที่ควรได้: ลบไป 12 แถว
 print()
 print("[รัน DELETE]")
 sql = '''DELETE FROM schedules
@@ -348,13 +348,14 @@ cursor.execute(sql, (doctor_id,))
 conn.commit()
 print("-> ลบไป", cursor.rowcount, "แถว")
 
-# 9.3 หลังลบ: ดูทุกช่องของ พญ.รัตนา
+# 9.3 หลังลบ: ดูช่องของ พญ.รัตนา วันมะรืนอีกครั้ง (วันอื่นยังอยู่ครบ ไม่ได้แสดงเพราะมีหลายร้อยแถว)
 # ผลที่ควรได้: 0 แถว
 print()
 print("[หลัง DELETE]")
 sql = '''SELECT schedule_id, doctor_id, work_date, slot_time
     FROM schedules
-    WHERE doctor_id = ?'''
+    WHERE doctor_id = ?
+      AND work_date = date('now', 'localtime', '+2 day')'''
 run_select(cursor, sql, (doctor_id,))
 wait()
 

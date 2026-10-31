@@ -1,39 +1,138 @@
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ระบบจองคิวคลินิก</title>
+    <meta http-equiv="refresh" content="10">
+    <title>{{ app_name }} - ระบบจองคิวคลินิก</title>
+    <style>
+        :root {
+            --primary: {{ colors.primary }};
+            --primary-dark: {{ colors.primary_dark }};
+            --secondary: {{ colors.secondary }};
+            --text: {{ colors.text }};
+            --hint: {{ colors.hint }};
+            --white: {{ colors.white }};
+            --booked-bg: {{ colors.booked_bg }};
+            --booked-text: {{ colors.booked_text }};
+            --done-bg: {{ colors.done_bg }};
+            --done-text: {{ colors.done_text }};
+            --cancelled-bg: {{ colors.cancelled_bg }};
+            --cancelled-text: {{ colors.cancelled_text }};
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Tahoma, sans-serif;
+            background: var(--secondary);
+            color: var(--text);
+        }
+        header {
+            background: var(--primary);
+            padding: 14px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 8px;
+        }
+        header h1 { margin: 0; font-size: 28px; }
+        header p { margin: 2px 0 0; font-size: 15px; }
+        .updated { font-size: 14px; text-align: right; }
+        main { max-width: 1100px; margin: 0 auto; padding: 16px; }
+        .legend { font-size: 15px; }
+        .chip { display: inline-block; padding: 3px 12px; border-radius: 999px; margin: 0 6px 6px 0; font-weight: bold; }
+        tr.booked td { background: var(--booked-bg); }
+        tr.done td { background: var(--done-bg); }
+        tr.cancelled td { background: var(--cancelled-bg); }
+        .chip.booked { background: var(--booked-bg); color: var(--booked-text); }
+        .chip.done { background: var(--done-bg); color: var(--done-text); }
+        .chip.cancelled { background: var(--cancelled-bg); color: var(--cancelled-text); }
+        tr.booked td.status { color: var(--booked-text); font-weight: bold; }
+        tr.done td.status { color: var(--done-text); font-weight: bold; }
+        tr.cancelled td.status { color: var(--cancelled-text); font-weight: bold; }
+        .day {
+            background: var(--white);
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin: 16px 0;
+        }
+        .day.today { border: 3px solid var(--primary-dark); }
+        .day h2 { margin: 0 0 10px; font-size: 21px; display: flex; align-items: center; gap: 10px; }
+        .badge { background: var(--primary); color: var(--text); font-size: 15px; padding: 2px 12px; border-radius: 999px; }
+        .summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 12px; }
+        .box { background: var(--secondary); border-radius: 8px; padding: 8px; text-align: center; font-size: 15px; }
+        .box b { display: block; font-size: 26px; }
+        .box.done b { color: var(--done-text); }
+        .box.booked b { color: var(--booked-text); }
+        .box.cancelled b { color: var(--cancelled-text); }
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 16px; }
+        th { background: var(--primary); color: var(--text); text-align: left; padding: 8px 10px; white-space: nowrap; }
+        td { padding: 8px 10px; border-bottom: 2px solid var(--white); white-space: nowrap; }
+        td.center, th.center { text-align: center; }
+        .empty { color: var(--hint); }
+        @media (max-width: 600px) {
+            .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            header h1 { font-size: 24px; }
+        }
+    </style>
 </head>
 <body>
-    <h1>ระบบจองคิวคลินิก</h1>
-    <h2>รายการคิวผู้ป่วย</h2>
+    <header>
+        <div>
+            <h1>{{ app_name }}</h1>
+            <p>ระบบจองคิวคลินิก · รายการคิวรายวัน (ดูอย่างเดียว)</p>
+        </div>
+        <div class="updated">ข้อมูล ณ {{ updated }}<br>หน้านี้รีเฟรชข้อมูลทุก 10 วินาที</div>
+    </header>
 
-    <table border="1" cellpadding="8">
-        <tr>
-            <th>เลขคิว</th>
-            <th>วันที่</th>
-            <th>เวลา</th>
-            <th>ผู้ป่วย</th>
-            <th>แพทย์</th>
-            <th>แผนก</th>
-            <th>สถานะ</th>
-        </tr>
+    <main>
+        <div class="legend">
+            สีแถว:
+            <span class="chip booked">จองแล้ว</span>
+            <span class="chip done">ตรวจแล้ว</span>
+            <span class="chip cancelled">ยกเลิก</span>
+        </div>
 
-        {% for q in queues %}
-        <tr>
-            <td>{{ q.appt_id }}</td>
-            <td>{{ q.work_date }}</td>
-            <td>{{ q.slot_time }}</td>
-            <td>{{ q.patient_name }}</td>
-            <td>{{ q.doctor_name }}</td>
-            <td>{{ q.dept_name }}</td>
-            <td>{{ q.status }}</td>
-        </tr>
+        {% if days|length == 0 %}
+        <p class="empty">ยังไม่มีคิวในระบบ</p>
+        {% endif %}
+
+        {% for day in days %}
+        <section class="day{% if day.is_today %} today{% endif %}">
+            <h2>{{ day.label }}{% if day.is_today %} <span class="badge">วันนี้</span>{% endif %}</h2>
+            <div class="summary">
+                <div class="box"><b>{{ day.total }}</b>คิวทั้งหมด</div>
+                <div class="box done"><b>{{ day.counts['ตรวจแล้ว'] }}</b>ตรวจแล้ว</div>
+                <div class="box booked"><b>{{ day.counts['จองแล้ว'] }}</b>รอตรวจ</div>
+                <div class="box cancelled"><b>{{ day.counts['ยกเลิก'] }}</b>ยกเลิก</div>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <tr>
+                        <th class="center">เลขคิว</th>
+                        <th class="center">เวลา</th>
+                        <th>ผู้ป่วย</th>
+                        <th>แพทย์</th>
+                        <th>แผนก</th>
+                        <th class="center">สถานะ</th>
+                    </tr>
+                    {% for q in day.queues %}
+                    <tr class="{{ q.css }}">
+                        <td class="center">{{ q.appt_id }}</td>
+                        <td class="center">{{ q.slot_time }}</td>
+                        <td>{{ q.patient }}</td>
+                        <td>{{ q.doctor }}</td>
+                        <td>{{ q.dept }}</td>
+                        <td class="center status">{{ q.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </section>
         {% endfor %}
-    </table>
+    </main>
 </body>
 </html>
-
-

@@ -16,6 +16,12 @@ HINT = '#3E5C69'  # ตัวหนังสือคำแนะนำ (เท�
 WARNING_TEXT = '#A61E33'  # ตัวหนังสือเตือนบนพื้นสีอ่อน (สีเน้นแบบเข้ม ไม่อย่างนั้นอ่านไม่ออก)
 DONE = '#1A7F37'  # สีเขียว: คิวที่ตรวจแล้ว
 CANCELLED = "#918F8F"  # สีเทา: คิวที่ยกเลิก
+BOOKED_BG = '#FFE7C7'  # พื้นแถวคิวที่จองแล้ว (ส้มอ่อน) ใช้ทั้งในโปรแกรมและหน้าเว็บ ตัวหนังสือในแถวใช้ TEXT สีเข้ม
+BOOKED_TEXT = '#8A4300'  # ส้มเข้ม: คำว่า "จองแล้ว" ป้ายสี และตัวเลขรอตรวจในหน้าเว็บ (อ่านชัดบนพื้นส้มอ่อน)
+DONE_BG = '#DCF2E1'  # พื้นแถวคิวที่ตรวจแล้ว (เขียวอ่อน)
+DONE_TEXT = '#14632B'  # เขียวเข้ม: คำว่า "ตรวจแล้ว" ป้ายสี และตัวเลขตรวจแล้วในหน้าเว็บ
+CANCELLED_BG = '#ECECEC'  # พื้นแถวคิวที่ยกเลิก (เทาอ่อน)
+CANCELLED_TEXT = '#5C5A5A'  # เทาเข้ม: คำว่า "ยกเลิก" ป้ายสี และตัวเลขยกเลิกในหน้าเว็บ
 FONT = ('Tahoma', 11)  # ฟอนต์หลักของทั้งโปรแกรม รองรับภาษาไทย
 FONT_BOLD = ('Tahoma', 11, 'bold')  # ตัวหนา ใช้กับปุ่ม หัวตาราง และหัวกรอบ
 
@@ -61,6 +67,7 @@ def setup_style(root):  # ตั้งสีและฟอนต์ของท
 
     style.configure('Treeview', background=WHITE, fieldbackground=WHITE, foreground=TEXT, rowheight=30, bordercolor=PRIMARY)  # ตาราง: พื้นขาว แถวสูงพอให้สระไทยไม่ถูกตัด
     style.map('Treeview', background=[('selected', SECONDARY)], foreground=[('selected', TEXT)])  # แถวที่เลือก: พื้นสีรอง
+    style.map('Queue.Treeview', background=[('selected', PRIMARY)], foreground=[('selected', TEXT)])  # ตารางคิว (แถวมีพื้นสี): แถวที่เลือกเป็นพื้นชมพูเข้มกว่าสีสถานะ จะได้เห็นชัดว่าเลือกแถวไหน
     style.configure('Treeview.Heading', background=PRIMARY, foreground=TEXT, font=FONT_BOLD, bordercolor=PRIMARY_DARK, lightcolor=PRIMARY, darkcolor=PRIMARY, relief='flat')  # หัวตาราง: พื้นชมพู ตัวหนาสีเข้ม
     style.map('Treeview.Heading', background=[('active', PRIMARY_DARK)], foreground=[('active', WHITE)])  # ชี้ที่หัวตาราง = พื้นเข้มขึ้น ตัวขาว
 

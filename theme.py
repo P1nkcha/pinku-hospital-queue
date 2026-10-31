@@ -13,6 +13,12 @@ HINT = '#3E5C69'
 WARNING_TEXT = '#A61E33'
 DONE = '#1A7F37'
 CANCELLED = "#918F8F"
+BOOKED_BG = '#FFE7C7'
+BOOKED_TEXT = '#8A4300'
+DONE_BG = '#DCF2E1'
+DONE_TEXT = '#14632B'
+CANCELLED_BG = '#ECECEC'
+CANCELLED_TEXT = '#5C5A5A'
 FONT = ('Tahoma', 11)
 FONT_BOLD = ('Tahoma', 11, 'bold')
 
@@ -58,6 +64,7 @@ def setup_style(root):
 
     style.configure('Treeview', background=WHITE, fieldbackground=WHITE, foreground=TEXT, rowheight=30, bordercolor=PRIMARY)
     style.map('Treeview', background=[('selected', SECONDARY)], foreground=[('selected', TEXT)])
+    style.map('Queue.Treeview', background=[('selected', PRIMARY)], foreground=[('selected', TEXT)])
     style.configure('Treeview.Heading', background=PRIMARY, foreground=TEXT, font=FONT_BOLD, bordercolor=PRIMARY_DARK, lightcolor=PRIMARY, darkcolor=PRIMARY, relief='flat')
     style.map('Treeview.Heading', background=[('active', PRIMARY_DARK)], foreground=[('active', WHITE)])
 
